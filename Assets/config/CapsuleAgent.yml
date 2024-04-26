@@ -1,0 +1,69 @@
+behaviors:
+  CapsuleAgent:
+    max_steps: 1000
+    # per episode, daarna Agent reset
+    trainer_type: ppo
+    # training algoritme 'Proximal Policy Optimization (PPO)'
+    # "balans tussen efficiëntie en effectiviteit"
+    time_horizon: 128
+    # Aantal stappen vooruit gekeken om toekomstige beloningen te schatten
+    # langere horizonnen kunnen een breder perspectief bieden voor besluitvorming.
+    summary_freq: 2000
+    # Frequentie voor het genereren van samenvattende statistieken in training stappen
+    # nuttig voor het monitoren en aanpassen van de trainingsvoortgang.
+
+    hyperparameters:
+      num_epoch: 3
+      # Aantal keer dat de ervaringsbuffer wordt doorlopen tijdens één update
+      # meer epochs = grondigere evaluatie = langere training
+      batch_size: 64 # 32, 64, 128,...
+      # Aantal ervaringen per iteratie update
+      # heeft rechtsteeks impact op CPU/RAM
+      buffer_size: 2048 # 1024, 2048, 4096,..
+      # Totaal aantal ervaringen te benutten tijdens training
+      # heeft rechtstreeks impact op CPU/RAM
+
+      learning_rate: 3.0e-4 # 1e-3, 1e-4, 3e-4 =>
+      # Stapgrootte voor het bijwerken van modelgewichten
+      # Een lagere waarde kan leiden tot langzamere convergentie maar helpt bij het fijn afstemmen
+      # en voorkomt overschrijden van de optimale waarden.
+      learning_rate_schedule: linear #  linear, constant, exponential
+      # Schema voor het afnemen van de leerfrequentie;
+      # 'linear' verlaagt de leerfrequentie geleidelijk van een initiële waarde tot nul.
+
+      beta: 1.0e-3 # 1e-3, 1e-4,...
+      # Coëfficiënt voor de entropiebonus ('stabiliseert' training)
+      # bevordert exploratie en probeert het model te verhinderen (te snel) naar een suboptimale
+      # oplossing te evolueren
+      beta_schedule: constant #  linear, constant, exponential
+      # Schema voor het aanpassen van de beta-parameter
+      # 'constant' houdt deze vast, wat de tuning kan vereenvoudigen.
+
+      epsilon: 0.2 # 0.1 ... 0.3
+      # PPO => beleidsupdates beperken
+      # voorkomt drastische gedragsveranderingen tussen iteraties
+      epsilon_schedule: linear #  linear, constant, exponential
+      # 'linear' vermindert het clippingbereik tijdens de training,
+      # wat leidt tot fijnere afgestemde beleidsregels.
+
+      lambd: 0.95 # 0.9 ... 0.95
+      # Kortingsfactor voor de Generalized Advantage Estimator
+      # hogere waarde = meer nadruk op latere beloningen
+
+    network_settings:
+      normalize: true
+      # Past normalisatie toe op invoerfuncties, belangrijk wanneer observatieschalen aanzienlijk verschillen.
+      hidden_units: 256
+      # Aantal neuronen in elke verborgen laag, grotere netwerken kunnen complexere patronen modelleren.
+      num_layers: 3
+      # Aantal verborgen lagen in het neurale netwerk, diepere netwerken kunnen complexere relaties
+      # vastleggen maar kunnen moeilijker te trainen zijn.
+
+    reward_signals:
+      extrinsic:
+        gamma: 0.95
+        # Kortingsfactor voor toekomstige beloningen, lagere waarden leggen meer
+        # nadruk op onmiddellijke beloningen, beïnvloedt strategie.
+        strength: 1.0
+        # Vermenigvuldiger voor het beloningssignaal, typisch aangepast op basis van
+        # het relatieve belang van verschillende soorten beloningen.

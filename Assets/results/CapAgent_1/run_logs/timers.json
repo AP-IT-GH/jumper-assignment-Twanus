@@ -1,0 +1,42 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1714045419",
+        "python_version": "3.9.19 (main, Mar 21 2024, 17:21:27) [MSC v.1916 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\anaconda3\\envs\\mlagents\\Scripts\\mlagents-learn config/CapsuleAgent.yml --run-id=CapAgent_1 --force",
+        "mlagents_version": "0.30.0",
+        "mlagents_envs_version": "0.30.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "1.7.1+cu110",
+        "numpy_version": "1.21.2",
+        "end_time_seconds": "1714045485"
+    },
+    "total": 66.7321869,
+    "count": 1,
+    "self": 0.005097599999999147,
+    "children": {
+        "run_training.setup": {
+            "total": 0.05290030000000001,
+            "count": 1,
+            "self": 0.05290030000000001
+        },
+        "TrainerController.start_learning": {
+            "total": 66.674189,
+            "count": 1,
+            "self": 7.670000000814525e-05,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 66.67409719999999,
+                    "count": 1,
+                    "self": 66.67409719999999
+                },
+                "TrainerController._save_models": {
+                    "total": 1.5099999998824387e-05,
+                    "count": 1,
+                    "self": 1.5099999998824387e-05
+                }
+            }
+        }
+    }
+}
